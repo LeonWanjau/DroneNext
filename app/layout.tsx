@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Appbar from "@/components/Appbar";
+import ShowFooter from "@/components/footer/ShowFooter";
+// import BgImg from "@/assets/images/wallpaper.webp";
+// import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,15 +14,26 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
+  modal,
   children,
 }: Readonly<{
+  modal: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Appbar />
-        {children}
+      <body className={`${inter.className} relative`}>
+        {/* <Image
+          src={BgImg}
+          alt="background image"
+          className="fixed w-screen h-screen z-0"
+        /> */}
+        <div className="relative">
+          <Appbar />
+          {children}
+          <ShowFooter />
+          {/* {modal} */}
+        </div>
       </body>
     </html>
   );

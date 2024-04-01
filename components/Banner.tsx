@@ -33,7 +33,7 @@ export default function Banner() {
               objectFit="cover"
               className="absolute left-0 top-0"
             />
-            <div className="absolute left-0 top-0 w-full h-full bg-foreground/30" />
+            <div className="absolute left-0 top-0 w-full h-full bg-foreground/30 dark:bg-background/30" />
             <div
               className="font-bold text-xl top-[calc(50%+56px)] px-4 
             -translate-y-1/2

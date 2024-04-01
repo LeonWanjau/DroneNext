@@ -6,6 +6,8 @@ type Project = {
   client?: string;
   date?: string;
   mainBackground: string | StaticImport;
+  mainBackgroundVideo?: string | StaticImport;
   images?: string[];
   videos?: string[];
+  blurDataUrl?: string;
 };
