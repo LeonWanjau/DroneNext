@@ -28,14 +28,7 @@ export default function InterceptedQuote() {
         <DialogHeader>
           <DialogTitle>Get a Free Quote</DialogTitle>
         </DialogHeader>
-        <Quote inQuotePage={false}/>
-        {/* <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="secondary">
-              Close
-            </Button>
-          </DialogClose>
-        </DialogFooter> */}
+        <Quote inQuotePage={false} />
       </DialogContent>
     </Dialog>
   );
