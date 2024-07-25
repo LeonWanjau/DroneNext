@@ -1,13 +1,16 @@
+import { defaultBlurredImageBase64, getCompanyInfo, getImageSrc } from "@/app/functions";
 import { Lightbulb } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
-export default function Logo({
+export default async function Logo({
   onDark = true,
   size = "normal",
 }: {
   onDark?: boolean;
   size?: "small" | "normal" | "large";
 }) {
+  const companyInfo = await getCompanyInfo();
   const textColor = onDark ? "text-primary-foreground" : "text-primary";
   let iconSize: string;
   let fontSize: string;
@@ -28,8 +31,19 @@ export default function Logo({
   return (
     <Link href="/">
       <div className="flex gap-1 items-center">
-        <p className={`${fontSize} font-bold`}>Company</p>
-        <Lightbulb className={`${iconSize}`} />
+        <p className={`${fontSize} font-bold`}>{companyInfo.companyName}</p>
+        {/* <Lightbulb className={`${iconSize}`} /> */}
+        <div className={`relative bg-transparent ${iconSize}`}>
+          <Image
+            src={
+              getImageSrc(companyInfo.logo.data.attributes.link)
+            }
+            className="bg-transparent"
+            fill
+            alt="company logo"
+            placeholder={defaultBlurredImageBase64}
+          />
+        </div>
       </div>
     </Link>
   );

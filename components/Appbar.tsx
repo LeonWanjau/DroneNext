@@ -9,11 +9,12 @@ const links = {
   Contacts: "/",
 };
 
-export default function Appbar() {
+export default function Appbar({ logo }: { logo: React.ReactNode }) {
   return (
     <div className="bg-primary/65 text-primary-foreground backdrop-blur fixed top-0 left-0 z-10 w-screen text-sm py-2">
       <div className="flex flex-col items-center gap-1 md:gap-0 md:flex-row justify-between px-4 container">
-          <Logo size="small" />
+        {/* <Logo size="small" /> */}
+        {logo}
         <NavLinks />
       </div>
     </div>

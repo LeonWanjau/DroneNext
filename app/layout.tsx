@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Appbar from "@/components/Appbar";
 import ShowFooter from "@/components/footer/ShowFooter";
+import Logo from "@/components/Logo";
 // import BgImg from "@/assets/images/wallpaper.webp";
 // import Image from "next/image";
 
@@ -29,10 +30,10 @@ export default function RootLayout({
           className="fixed w-screen h-screen z-0"
         /> */}
         <div className="relative min-h-[100vh] flex flex-col">
-          <Appbar />
+          <Appbar logo={<Logo size="small" />} />
           {/* Flex grow to take up extra height remove empty space under footer, when content height is small */}
           <div className="grow">{children}</div>
-          <ShowFooter />
+          <ShowFooter logo={<Logo />} />
           {/* {modal} */}
         </div>
       </body>

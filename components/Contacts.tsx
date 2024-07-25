@@ -1,3 +1,4 @@
+import { getContactItems } from "@/app/functions";
 import { LucideIcon, Mail, Phone } from "lucide-react";
 
 export const contactItems: {
@@ -10,7 +11,8 @@ export const contactItems: {
   { icon: Mail, title: "Email", text: "drone@mail.com", color: "secondary" },
 ];
 
-export default function Contacts() {
+export default async function Contacts() {
+  const contactItems = await getContactItems();
   return (
     <div>
       <p className="font-bold text-3xl md:text-4xl text-center lg:text-start">

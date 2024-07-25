@@ -8,6 +8,14 @@ import {
 } from "./ui/carousel";
 import BannerImage from "@/assets/images/banner.jpg";
 import DroneImage from "@/assets/images/drone.png";
+import { doFetch } from "@/app/api";
+import { BannerItem, StrapiResponse } from "@/types";
+import {
+  defaultBlurredImageBase64,
+  getCompanyInfo,
+  getImageSrc,
+} from "@/app/functions";
+import ImageIframe from "./ImageIframe";
 
 const carouselItems = [
   {
@@ -20,34 +28,50 @@ const carouselItems = [
   },
 ];
 
-export default function Banner() {
+export default async function Banner() {
+  const bannerRes = await doFetch({
+    url: "/banners",
+    options: { method: "GET" },
+  });
+  const bannerItems = (await bannerRes.json()) as StrapiResponse<BannerItem>;
+
+  const companyInfo = await getCompanyInfo();
+
   return (
     <Carousel className="">
       <CarouselContent className="h-[min(80vh,864px)]">
-        {carouselItems.map((item) => (
-          <CarouselItem key={item.text} className="relative">
-            <Image
-              src={item.src}
-              fill
-              alt="Banner Image"
-              objectFit="cover"
-              className="absolute left-0 top-0"
-            />
-            <div className="absolute left-0 top-0 w-full h-full bg-foreground/30 dark:bg-background/30" />
-            <div
-              className="font-bold text-xl top-[calc(50%+56px)] px-4 
+        {bannerItems.data.map((bannerItem) => {
+          const bannerItemAttrs = bannerItem.attributes;
+          return (
+            <CarouselItem key={bannerItem.id} className="relative">
+              <Image
+                src={
+                  bannerItemAttrs?.image
+                    ? getImageSrc(bannerItemAttrs.image)
+                    : BannerImage
+                }
+                fill
+                alt="Banner Image"
+                className="absolute left-0 top-0 object-cover"
+                placeholder={defaultBlurredImageBase64}
+              />
+              {/* <ImageIframe src={bannerItemAttrs.image} /> */}
+              <div className="absolute left-0 top-0 w-full h-full bg-foreground/30 dark:bg-background/30" />
+              <div
+                className="font-bold text-xl top-[calc(50%+56px)] px-4 
             -translate-y-1/2
              lg:top-1/2  lg:left-[6rem] lg:px-8 container relative"
-            >
-              {/* bg-primary/50 backdrop-blur-sm py-1 px-4 */}
-              <div className="text-primary-foreground  rounded-lg inline-block">
-                <span className="lg:text-5xl lg:leading-normal">
-                  {item.text}
-                </span>
+              >
+                {/* bg-primary/50 backdrop-blur-sm py-1 px-4 */}
+                <div className="text-primary-foreground  rounded-lg inline-block">
+                  <span className="lg:text-5xl lg:leading-normal">
+                    {bannerItemAttrs.bannerText}
+                  </span>
+                </div>
               </div>
-            </div>
-          </CarouselItem>
-        ))}
+            </CarouselItem>
+          );
+        })}
       </CarouselContent>
       <div className="container absolute top-1/2 left-1/2 -translate-x-1/2">
         <CarouselPrevious className="left-4 lg:left-4" />
@@ -58,8 +82,7 @@ export default function Banner() {
         rounded-lg flex align-start  container w-[calc(100%-2rem)] md:max-w-screen-sm lg:max-w-screen-md 2xl:max-w-screen-lg"
       >
         <div className="text-sm lg:text-xl font-bold">
-          We are a visual production company specializing in aerial drone video
-          and photography
+          {companyInfo.description}
         </div>
         <div className="w-1/4 relative hidden md:block">
           <Image
@@ -70,7 +93,5 @@ export default function Banner() {
         </div>
       </div>
     </Carousel>
-
-
   );
 }

@@ -20,32 +20,29 @@ const lorem = new LoremIpsum({
 
 export const projects: Project[] = [
   {
-    name: "Project 1",
+    title: "Project 1",
     client: "Client 1",
     date: "DD-MM-YYYY",
     // description: `Client requested aerial drone footage of specified area which was shot
     //   and edited within the requested time frame`,
     description: lorem.generateSentences(4),
-    mainBackground: BeachGif,
-    mainBackgroundVideo: BeachVideo,
-    blurDataUrl: blurredImageBase64,
+    // backgroundImage: BeachGif,
+    // mainBackgroundVideo: BeachVideo,
   },
   {
-    name: "Project 2",
+    title: "Project 2",
     client: "Client 2",
     date: "DD-MM-YYYY",
     description: lorem.generateSentences(5),
-    mainBackground: DefaultProjectImage,
-    mainBackgroundVideo: BeachVideo,
-    blurDataUrl: blurredImageBase64,
+    // backgroundImage: DefaultProjectImage,
+    // mainBackgroundVideo: BeachVideo,
   },
   {
-    name: "Project 3",
+    title: "Project 3",
     client: "Client 3",
     date: "DD-MM-YYYY",
     description: lorem.generateSentences(5),
-    mainBackground: DefaultProjectImage,
-    mainBackgroundVideo: BeachVideo,
-    blurDataUrl: blurredImageBase64,
+    // mainBackground: DefaultProjectImage,
+    // mainBackgroundVideo: BeachVideo,
   },
 ];

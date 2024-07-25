@@ -11,9 +11,11 @@ const services = ["Property Tours", "Customization", "Event Coverage"];
 export default function Footer({
   spacings,
   showGetFreeQuote = true,
+  logo,
 }: {
   spacings: string;
   showGetFreeQuote?: boolean;
+  logo: React.ReactNode;
 }) {
   return (
     <div className={`relative`}>
@@ -50,7 +52,8 @@ export default function Footer({
             <FreeQuote spacings={spacings} />
           </div> */}
           <div className="max-w-[400px]">
-            <Logo />
+            {/* <Logo />*/}
+            {logo}
             <p className="text-md lg:text-xl mt-3 md:mt-6">
               We are a visual production company specializing in aerial drone
               video and photography

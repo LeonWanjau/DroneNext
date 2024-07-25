@@ -24,7 +24,7 @@ export default function Images({ images }: { images: Image[] }) {
           return (
             <Card
               key={index}
-              className={`rounded overflow-hidden relative cursor-pointer ${getMediaItemGridLayout(
+              className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer ${getMediaItemGridLayout(
                 index,
                 images.length
               )}`}
@@ -34,7 +34,7 @@ export default function Images({ images }: { images: Image[] }) {
               }}
             >
               <NextImage
-                src={getImageSrc(image.src)}
+                src={getImageSrc(image.link)}
                 blurDataURL={defaultBlurredImageBase64}
                 alt="video"
                 className={`object-cover`}
@@ -46,10 +46,10 @@ export default function Images({ images }: { images: Image[] }) {
       </div>
 
       <MediaDialog open={dialogOpen} toggleDialog={setDialogOpen}>
-        {currentImage?.src && (
+        {currentImage?.link && (
           <div className="w-full aspect-video relative">
             <NextImage
-              src={getImageSrc(currentImage.src)}
+              src={getImageSrc(currentImage.link)}
               blurDataURL={defaultBlurredImageBase64}
               alt="image"
               className="object-cover"
