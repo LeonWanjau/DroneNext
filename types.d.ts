@@ -82,3 +82,16 @@ type YoutubeVideo = {
   name?: string | null;
   link?: string | null;
 };
+
+type DroneUse = {
+  droneUse?: string | null;
+};
+
+type QuoteInfo = {
+  droneUses?: StrapiResponse<DroneUse>;
+  image?: SingleStrapiResponse<Image>;
+};
+
+type FeaturedProjects = {
+  projects?: StrapiResponse<Project>;
+};

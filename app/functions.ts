@@ -30,12 +30,18 @@ export enum Pages {
 }
 
 export function getLinks(inAppBar: Boolean = true) {
-  const links: { [page in Pages]? :{ label: string; href: string; icon: LucideIcon }} = {
+  const links: {
+    [page in Pages]?: { label: string; href: string; icon: LucideIcon };
+  } = {
     [Pages.HOME]: { label: "Home", href: "/", icon: HomeIcon },
     [Pages.PORTFOLIO]: { label: "Portfolio", href: "/portfolio", icon: Folder },
   };
   if (inAppBar) {
-    links[Pages.CONTACTS] = { label: "Contacts", href: "/", icon: Contact };
+    links[Pages.CONTACTS] = {
+      label: "Contacts",
+      href: "/contacts",
+      icon: Contact,
+    };
   }
   return links;
 }
@@ -44,7 +50,7 @@ export function getLinks(inAppBar: Boolean = true) {
 function getMediaItemGridLayoutFn() {
   const defaultSpans: { colspan: string; rowspan: string }[] = [
     { colspan: "md:col-[span_3]", rowspan: "md:row-[span_1]" },
-    { colspan: "md:col-[span_1]", rowspan: "md:row-[span_2]" },
+    { colspan: "md:col-[span_1]", rowspan: "md:row-[span_1]" },
     { colspan: "md:col-[span_1]", rowspan: "md:row-[span_1]" },
     { colspan: "md:col-[span_2]", rowspan: "md:row-[span_1]" },
   ];
@@ -59,7 +65,14 @@ function getMediaItemGridLayoutFn() {
     const lastRow = Math.floor(numberOfItems / itemsPerRow) + 1;
     const currentRow = Math.floor(itemIndex / itemsPerRow) + 1;
     const isLastRow = currentRow === lastRow;
-    const rowspan = isLastRow ? "row-[span_1]" : spanItem.rowspan;
+    const isSecondthItem = itemIndex % itemsPerRow === 2;
+    const groupIsFull = currentRow * itemsPerRow <= numberOfItems;
+    let rowspan = "";
+    if (groupIsFull && isSecondthItem) {
+      rowspan = "md:row-[span_2]";
+    } else {
+      rowspan = isLastRow ? "row-[span_1]" : spanItem.rowspan;
+    }
     return `${spanItem.colspan} ${rowspan}`;
   };
 }
@@ -144,4 +157,19 @@ export async function getCompanyInfo() {
     (await res.json()) as SingleStrapiResponse<CompanyInfo>
   ).data.attributes;
   return companyInfoAttrs;
+}
+
+export function getNumberOfItemsPerPage() {
+  return parseInt(process.env.NEXT_PUBLIC_ITEMS_PER_PAGE ?? "10");
+}
+
+export enum MediaTypes {
+  YOUTUBE = "YOUTUBE",
+  IMAGE = "IMAGE",
+  VIDEO = "VIDEO",
+  PROJECT = "PROJECT",
+}
+
+export function getMediaPageNumberParamName(mediaType: MediaTypes) {
+  return `${mediaType.toLowerCase()}-page`;
 }

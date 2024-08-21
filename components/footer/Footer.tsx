@@ -1,10 +1,11 @@
 import Logo from "../Logo";
 import NavLinks from "../NavLinks";
 import { contactItems } from "../Contacts";
-import { ArrowBigRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "../ui/button";
-import FreeQuoteButton from "./FreeQuoteButton";
 import Link from "next/link";
+import { doFetch } from "@/app/api";
+import { Service, StrapiResponse } from "@/types";
 
 const services = ["Property Tours", "Customization", "Event Coverage"];
 
@@ -12,16 +13,18 @@ export default function Footer({
   spacings,
   showGetFreeQuote = true,
   logo,
+  services: serviceNames,
 }: {
   spacings: string;
   showGetFreeQuote?: boolean;
   logo: React.ReactNode;
+  services: string[];
 }) {
   return (
     <div className={`relative`}>
       {showGetFreeQuote && (
         <div className={`md:container relative md:${spacings}`}>
-          <div className="md:absolute md:top-0 md:-translate-y-1/2 md:rounded md:ring overflow-hidden">
+          <div className="md:absolute md:top-0 md:-translate-y-1/2 md:rounded md:shadow-[0_16px_24px_8px_rgb(0,0,0,0.25)] overflow-hidden">
             <div
               className={`bg-secondary text-secondary-foreground py-16 md:py-14 flex flex-col md:flex-row 
               items-center gap-8 md:gap-16 ${spacings} md:px-10`}
@@ -35,7 +38,6 @@ export default function Footer({
                   Get a free qoute
                 </Button>
               </Link>
-              {/* <FreeQuoteButton /> */}
             </div>
           </div>
         </div>
@@ -48,11 +50,7 @@ export default function Footer({
               showGetFreeQuote ? "md:pt-40" : "md:pt-14"
             } md:container relative text-lg`}
         >
-          {/* <div className="hidden md:block absolute top-[-70%] rounded overflow-hidden">
-            <FreeQuote spacings={spacings} />
-          </div> */}
           <div className="max-w-[400px]">
-            {/* <Logo />*/}
             {logo}
             <p className="text-md lg:text-xl mt-3 md:mt-6">
               We are a visual production company specializing in aerial drone
@@ -62,10 +60,10 @@ export default function Footer({
           <div>
             <p className="font-bold md:text-2xl">Services</p>
             <div className="mt-3 flex flex-col gap-2">
-              {services.map((service) => (
-                <div key={service} className="flex gap-2">
+              {serviceNames.map((serviceName) => (
+                <div key={serviceName} className="flex gap-2">
                   <ArrowRight size="20px" />
-                  <p>{service}</p>
+                  <p>{serviceName}</p>
                 </div>
               ))}
             </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Appbar from "@/components/Appbar";
 import ShowFooter from "@/components/footer/ShowFooter";
 import Logo from "@/components/Logo";
+import FooterServerComponent from "@/components/footer/FooterServerComponent";
 // import BgImg from "@/assets/images/wallpaper.webp";
 // import Image from "next/image";
 
@@ -15,10 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  modal,
+  // modal,
   children,
 }: Readonly<{
-  modal: React.ReactNode;
+  // modal: React.ReactNode;
   children: React.ReactNode;
 }>) {
   return (
@@ -33,7 +34,7 @@ export default function RootLayout({
           <Appbar logo={<Logo size="small" />} />
           {/* Flex grow to take up extra height remove empty space under footer, when content height is small */}
           <div className="grow">{children}</div>
-          <ShowFooter logo={<Logo />} />
+          <FooterServerComponent />
           {/* {modal} */}
         </div>
       </body>

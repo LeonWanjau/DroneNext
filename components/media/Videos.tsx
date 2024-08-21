@@ -5,9 +5,8 @@ import Title from "../Title";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import {
-  VideoType,
+  MediaTypes,
   defaultBlurredImageBase64,
-  defaultVideoThumbnail,
   getIdFromGDriveLink,
   getImageSrc,
   getMediaItemGridLayout,
@@ -17,15 +16,20 @@ import { PlayCircle } from "lucide-react";
 import MediaDialog from "./MediaDialog";
 import VideoPlayer from "./VideoPlayer";
 import { useEffect, useState } from "react";
+import {
+  useGetItemsBasedOnPageNumber,
+  useGetPageNumber,
+} from "@/app/client-functions";
+import Pagination from "../Pagination";
 
 export default function Videos({
   title,
   videos = [],
-  videoType,
+  mediaType,
 }: {
   title: string;
   videos?: Video[] | YoutubeVideo[];
-  videoType: VideoType;
+  mediaType: MediaTypes;
 }) {
   const [currentVideo, setCurrentVideo] = useState<Video | YoutubeVideo | null>(
     null
@@ -37,10 +41,14 @@ export default function Videos({
   const [getEmbedUrl, setGetEmbedUrl] = useState<
     (link: string) => string | null
   >(() => () => null);
+  const currentPage = useGetPageNumber(mediaType);
+  const selectedVideos = useGetItemsBasedOnPageNumber(currentPage, videos);
+  const [titleId, setTitleId] = useState<string>("videos");
 
   useEffect(() => {
-    switch (videoType) {
-      case VideoType.GOOGLE_DRIVE:
+    switch (mediaType) {
+      case MediaTypes.VIDEO:
+        setTitleId("gdrive-videos");
         setGetThumbnailUrl(() => getImageSrc);
         setGetEmbedUrl(
           () => (link: string) =>
@@ -49,10 +57,9 @@ export default function Videos({
             )}/preview`
         );
         break;
-      case VideoType.YOUTUBE:
+      case MediaTypes.YOUTUBE:
+        setTitleId("youtube-videos");
         setGetThumbnailUrl(() => (link: string) => {
-          console.log(link)
-          console.log(getVideoIdFromYoutubeLink(link))
           return `https://i.ytimg.com/vi/${getVideoIdFromYoutubeLink(
             link
           )}/hqdefault.jpg`;
@@ -63,21 +70,20 @@ export default function Videos({
         );
         break;
     }
-  }, []);
+  }, [mediaType]);
 
   return (
     <div>
-      <Title>{title}</Title>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 mt-4 auto-rows-[216px]">
-        {videos.map((video, index) => {
+      <div id={titleId} className="md:scroll-mt-24">
+        <Title>{title}</Title>
+      </div>
+      <div className="flex flex-wrap gap-6 mt-4">
+        {selectedVideos.map((video, index) => {
           return (
             <Card
               key={index}
-              className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer ${getMediaItemGridLayout(
-                index,
-                videos.length,
-                true
-              )}`}
+              className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer
+                grow shrink-0 basis-[100%] md:basis-[40%] min-h-[216px]`}
               onClick={() => {
                 setCurrentVideo(video);
                 setDialogOpen(true);
@@ -101,6 +107,15 @@ export default function Videos({
             </Card>
           );
         })}
+      </div>
+
+      <div className="md:mt-4">
+        <Pagination
+          numberOfItems={videos.length}
+          currentPage={currentPage}
+          mediaType={mediaType}
+          urlHash={titleId}
+        />
       </div>
 
       <MediaDialog open={dialogOpen} toggleDialog={setDialogOpen}>

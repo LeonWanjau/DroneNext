@@ -7,27 +7,36 @@ import { useState } from "react";
 import MediaDialog from "./MediaDialog";
 import NextImage from "next/image";
 import {
+  MediaTypes,
   defaultBlurredImageBase64,
   getImageSrc,
   getMediaItemGridLayout,
 } from "@/app/functions";
+import {
+  useGetItemsBasedOnPageNumber,
+  useGetPageNumber,
+} from "@/app/client-functions";
+import Pagination from "../Pagination";
 
 export default function Images({ images }: { images: Image[] }) {
   const [currentImage, setCurrentImage] = useState<Image | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const currentPage = useGetPageNumber(MediaTypes.IMAGE);
+  const selectedImages = useGetItemsBasedOnPageNumber(currentPage, images);
 
   return (
     <div>
-      <Title>Images</Title>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:gap-6 mt-4 auto-rows-[216px]">
-        {images.map((image, index) => {
+      <div id="images" className="md:scroll-mt-24">
+        <Title>Images</Title>
+      </div>
+
+      <div className="flex flex-wrap gap-6 mt-4">
+        {selectedImages.map((image, index) => {
           return (
             <Card
               key={index}
-              className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer ${getMediaItemGridLayout(
-                index,
-                images.length
-              )}`}
+              className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer
+                grow shrink-0 basis-[100%] md:basis-[40%] min-h-[216px]`}
               onClick={() => {
                 setCurrentImage(image);
                 setDialogOpen(true);
@@ -43,6 +52,15 @@ export default function Images({ images }: { images: Image[] }) {
             </Card>
           );
         })}
+      </div>
+
+      <div className="md:mt-4">
+        <Pagination
+          numberOfItems={images.length}
+          currentPage={currentPage}
+          mediaType={MediaTypes.IMAGE}
+          urlHash="images"
+        />
       </div>
 
       <MediaDialog open={dialogOpen} toggleDialog={setDialogOpen}>

@@ -84,11 +84,6 @@ export default function Services() {
           ))}
         </CarouselContent>
 
-        {/* <div className="md:hidden mt-4 flex justify-between">
-        <CarouselPrevious className="static translate-y-0" />
-        <CarouselNext className="static translate-y-0" />
-      </div> */}
-
         <div className="flex gap-1 mt-4">
           {services.map((_, index) => (
             <Button

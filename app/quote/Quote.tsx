@@ -29,8 +29,10 @@ interface IFormInputs {
 
 export default function Quote({
   inQuotePage = true,
+  droneUses = [],
 }: {
   inQuotePage?: boolean;
+  droneUses?: string[];
 }) {
   const {
     handleSubmit,
@@ -134,10 +136,9 @@ Primary Drone Use: ${data.primaryDroneUse ? data.primaryDroneUse : ""}`;
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Cinematography">Cinematography</SelectItem>
-                <SelectItem value="Video">Video</SelectItem>
-                <SelectItem value="Photo">Photo</SelectItem>
-                <SelectItem value="Timelapse">Timelapse</SelectItem>
+                {droneUses.map((droneUse) => (
+                  <SelectItem value={droneUse}>{droneUse}</SelectItem>
+                ))}
                 <SelectSeparator />
                 {field.value && (
                   <div className="flex justify-center">
@@ -158,29 +159,6 @@ Primary Drone Use: ${data.primaryDroneUse ? data.primaryDroneUse : ""}`;
             </Select>
           )}
         />
-        {/* <Select>
-          <SelectTrigger className="">
-            <div className="grow flex justify-between items-center pr-2">
-              <SelectValue placeholder=""/>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-auto"
-                onClick={(event) => {
-                  event.stopPropagation();
-                }}
-              >
-                <Delete className="opacity-50" />
-              </Button>
-            </div>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Cinematography">Cinematograpny</SelectItem>
-            <SelectItem value="Video">Video</SelectItem>
-            <SelectItem value="Photo">Photo</SelectItem>
-            <SelectItem value="Timelapse">Timelapse</SelectItem>
-          </SelectContent>
-        </Select> */}
       </div>
       <Button
         type="submit"

@@ -1,25 +1,21 @@
 import { doFetch } from "@/app/api";
 import {
-  VideoType,
+  MediaTypes,
   defaultImage,
-  getIdFromGDriveLink,
   getImageSrc,
 } from "@/app/functions";
 import Images from "@/components/media/Images";
 import Videos from "@/components/media/Videos";
-import YoutubePlayer from "@/components/media/YoutubePlayer";
 import {
-  Image,
   Project,
   SingleStrapiResponse,
   StrapiResponse,
-  Video,
 } from "@/types";
 import NextImage from "next/image";
 
 export async function generateStaticParams() {
   const projectsRes = await doFetch({
-    url: "/projects?populate[0]=backgroundImage",
+    url: "/projects",
     options: { method: "GET" },
   });
   const projects = ((await projectsRes.json()) as StrapiResponse<Project>).data;
@@ -43,72 +39,7 @@ export default async function Page({
   const videos = projectAttrs.videos?.data.map((item) => item.attributes) ?? [];
   const youtubeVideos =
     projectAttrs.youtubeVideos?.data.map((item) => item.attributes) ?? [];
-  console.log(projectAttrs);
-
-  // const project: Project = {
-  //   title: "Project Name",
-  //   description: `Long description Long description Long description Long description Long description Long description Long description
-  //   Long description Long description Long description Long description Long description Long description Long description
-  //   Long description Long description Long description Long description Long description Long description Long description
-  //   Long description Long description Long description Long description Long description Long description Long description Long description
-  //   Long description Long description Long description Long description Long description Long description Long description Long description Long description
-  //   `,
-  //   client: "Client",
-  //   date: "05/01/2024",
-  //   // backgroundImage:
-  //   //   "https://drive.google.com/file/d/1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO/view?usp=drive_link",
-  // };
-
-  // const images: Image[] = [
-  //   {
-  //     link: "https://drive.google.com/thumbnail?id=1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO&sz=w1000",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO/view?usp=drive_link",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/thumbnail?id=1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO&sz=w1000",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/thumbnail?id=1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO&sz=w1000",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/thumbnail?id=1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO&sz=w1000",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/thumbnail?id=1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO&sz=w1000",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/1iyHM0a2OEyHhNPSPHdxUSf3SyXSGLCkO/view?usp=drive_link",
-  //   },
-  // ];
-  // const videos: Video[] = [
-  //   {
-  //     link: "https://drive.google.com/file/d/10SAuwlOaI2x0pbLjsq3Zamlc8begsqGC/view?usp=drive_link",
-  //     embedUrl:
-  //       "https://drive.google.com/file/d/1R8SqDBXOcZ4GqXRnXQI3z6u1m-ENSiOL/preview",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/10SAuwlOaI2x0pbLjsq3Zamlc8begsqGC/view?usp=drive_link",
-  //     embedUrl:
-  //       "https://drive.google.com/file/d/1k8vgho2Pa2vq4ppfXhuyERzi3o_okSQF/preview",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/10SAuwlOaI2x0pbLjsq3Zamlc8begsqGC/view?usp=drive_link",
-  //     embedUrl:
-  //       "https://drive.google.com/file/d/1k8vgho2Pa2vq4ppfXhuyERzi3o_okSQF/preview",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/10SAuwlOaI2x0pbLjsq3Zamlc8begsqGC/view?usp=drive_link",
-  //     embedUrl:
-  //       "https://drive.google.com/file/d/1k8vgho2Pa2vq4ppfXhuyERzi3o_okSQF/preview",
-  //   },
-  //   {
-  //     link: "https://drive.google.com/file/d/10SAuwlOaI2x0pbLjsq3Zamlc8begsqGC/view?usp=drive_link",
-  //     embedUrl:
-  //       "https://drive.google.com/file/d/1k8vgho2Pa2vq4ppfXhuyERzi3o_okSQF/preview",
-  //   },
-  // ];
+    
   return (
     <div>
       <div className="relative h-[min(80vh,auto)] lg:h-[auto] lg:pt-28 pt-28 pb-12 lg:py-24">
@@ -145,7 +76,7 @@ export default async function Page({
         {youtubeVideos.length > 0 && (
           <Videos
             title="Youtube Videos"
-            videoType={VideoType.YOUTUBE}
+            mediaType={MediaTypes.YOUTUBE}
             videos={youtubeVideos}
           />
         )}
@@ -153,7 +84,7 @@ export default async function Page({
         {videos.length > 0 && (
           <Videos
             title="Videos"
-            videoType={VideoType.GOOGLE_DRIVE}
+            mediaType={MediaTypes.VIDEO}
             videos={videos}
           />
         )}

@@ -1,6 +1,5 @@
 import Banner from "@/components/Banner";
 import Contacts from "@/components/Contacts";
-import Footer from "@/components/footer/Footer";
 import Mission from "@/components/Mission";
 import Portfolio from "@/components/Portfolio";
 import Services from "@/components/services/Services";
@@ -23,7 +22,7 @@ export default function Page() {
       </div>
       <div className="container px-4 mt-8 md:mt-24">
         <Contacts />
-      </div>d
+      </div>
     </div>
   );
 }

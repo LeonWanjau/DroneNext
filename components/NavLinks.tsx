@@ -16,8 +16,8 @@ export default function NavLinks({ inAppBar = true }: { inAppBar?: boolean }) {
       <NavigationMenuList
         className={inAppBar ? "flex gap-2" : "flex flex-col gap-3 items-start"}
       >
-        {Object.values(links).map(({ label, href, icon: Icon }) => (
-          <Link href={href}>
+        {Object.entries(links).map(([page,{ label, href, icon: Icon }]) => (
+          <Link href={href} key={page}>
             <NavigationMenuItem
               key={label}
               className={`${inAppBar && navigationMenuTriggerStyle()} 

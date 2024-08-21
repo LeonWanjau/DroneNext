@@ -11,15 +11,21 @@ export const contactItems: {
   { icon: Mail, title: "Email", text: "drone@mail.com", color: "secondary" },
 ];
 
-export default async function Contacts() {
+export default async function Contacts({
+  showTitle = true,
+}: {
+  showTitle?: boolean;
+}) {
   const contactItems = await getContactItems();
   return (
     <div>
-      <p className="font-bold text-3xl md:text-4xl text-center lg:text-start">
-        Our Contacts
-      </p>
+      {showTitle && (
+        <p className="font-bold text-3xl md:text-4xl text-center lg:text-start">
+          Our Contacts
+        </p>
+      )}
       <div className="flex">
-        <div className="flex flex-col grow md:basis-2/3 md:grow-0 md:flex-row mt-4 md:mt-6 rounded overflow-hidden ring">
+        <div className="flex flex-col grow md:basis-2/3 md:grow-0 md:flex-row mt-4 md:mt-6 rounded overflow-hidden shadow-[0_16px_24px_0px_rgb(0,0,0,0.25)]">
           {contactItems.map((item) => (
             <div
               key={item.title}

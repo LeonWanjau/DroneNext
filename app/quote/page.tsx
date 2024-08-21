@@ -3,8 +3,23 @@ import Quote from "./Quote";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Img from "@/assets/images/aerial-1.jpg";
+import { doFetch } from "../api";
+import { QuoteInfo, SingleStrapiResponse } from "@/types";
+import { getImageSrc } from "../functions";
 
-export default function Page() {
+export default async function Page() {
+  const quoteResp = await doFetch({
+    url: "/quote-info?populate[0]=image&populate[1]=droneUses",
+    options: { method: "GET" },
+  });
+  const quoteInfo = (await quoteResp.json()) as SingleStrapiResponse<QuoteInfo>;
+  const quoteAttrs = quoteInfo.data.attributes;
+  const imageSrc = quoteAttrs.image?.data.attributes.link;
+  const droneUses = quoteAttrs.droneUses?.data
+    .filter((item) => !!item.attributes.droneUse)
+    .map((item) => item.attributes.droneUse) as string[];
+  console.log(droneUses)
+
   return (
     <div className="container px-4">
       <AppBarSpacer />
@@ -13,9 +28,10 @@ export default function Page() {
           <div className="flex">
             <div className="basis-0 grow relative hidden md:block">
               <Image
-                src={Img}
+                src={imageSrc ? getImageSrc(imageSrc) : Img}
                 alt="free quote image"
                 className="object-cover min-width-0 absolute h-full"
+                fill
               />
             </div>
             <div className="py-4 grow md:grow-0 flex flex-col items-stretch md:pl-8 basis-2/3">
@@ -23,7 +39,7 @@ export default function Page() {
                 Get a Free Quote
               </p>
               <div className="mt-8">
-                <Quote />
+                <Quote droneUses={droneUses}/>
               </div>
             </div>
           </div>
