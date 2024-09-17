@@ -15,6 +15,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Service, StrapiResource, StrapiResponse } from "@/types";
 import { defaultBlurredImageBase64, getImageSrc } from "@/app/functions";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const services = [
   {
@@ -82,12 +83,14 @@ export default function ServicesClientComponent({
                       <div className="h-[220px] lg:h-[330px] w-full relative">
                         <Image
                           src={
-                            service.attributes.imageLink
-                              ? getImageSrc(service.attributes.imageLink)
+                            service.attributes.image?.data.attributes.link
+                              ? getImageSrc(
+                                  service.attributes.image?.data.attributes.link
+                                )
                               : AerialHome
                           }
                           alt="aerial home"
-                          className="rounded ring-1 object-cover"
+                          className="rounded object-cover"
                           fill
                           placeholder={defaultBlurredImageBase64}
                         />
@@ -111,23 +114,49 @@ export default function ServicesClientComponent({
         <CarouselNext className="static translate-y-0" />
       </div> */}
 
-        <div className="flex gap-1 mt-4">
-          {services.data.map((_, index) => (
+        {services.data.length > 3 && (
+          // <div className="flex gap-1 mt-4">
+          //   {services.data.map((_, index) => (
+          //     <Button
+          //       key={index}
+          //       className={`basis-1/${
+          //         services.data.length
+          //       } md:basis-[80px] h-[8px] p-0 ${
+          //         current - 1 === index
+          //           ? "bg-foreground/80 hover:bg-foreground/80"
+          //           : "bg-muted-foreground/80 hover:bg-foreground/60"
+          //       }`}
+          //       onClick={() => {
+          //         api?.scrollTo(index);
+          //       }}
+          //     ></Button>
+          //   ))}
+          // </div>
+          // <div className="">
+          <div className="gap-8 md:gap-4 w-full justify-center mt-4 flex">
             <Button
-              key={index}
-              className={`basis-1/${
-                services.data.length
-              } md:basis-[80px] h-[8px] p-0 ${
-                current - 1 === index
-                  ? "bg-foreground/80 hover:bg-foreground/80"
-                  : "bg-muted-foreground/80 hover:bg-foreground/60"
-              }`}
+              size="icon"
+              className="rounded-full"
               onClick={() => {
-                api?.scrollTo(index);
+                api?.scrollTo((current - 2) % services.data.length);
               }}
-            ></Button>
-          ))}
-        </div>
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="sr-only">Previous service</span>
+            </Button>
+            <Button
+              size="icon"
+              className="rounded-full"
+              onClick={() => {
+                api?.scrollTo(current % services.data.length);
+              }}
+            >
+              <ArrowRight className="h-4 w-4" />
+              <span className="sr-only">Next service</span>
+            </Button>
+          </div>
+          // </div>
+        )}
       </Carousel>
     </div>
   );

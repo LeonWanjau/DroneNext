@@ -41,7 +41,7 @@ type PhilosophyAndMission = {
 
 type Service = {
   name: string;
-  imageLink?: string | null;
+  image?: SingleStrapiResponse<Image>;
   serviceDetails: StrapiResponse<{ name: string }>;
 };
 

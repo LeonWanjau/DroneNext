@@ -4,7 +4,7 @@ import { Service, StrapiResponse } from "@/types";
 
 export default async function Services() {
   const res = await doFetch({
-    url: "/services?populate[serviceDetails][fields][0]=name",
+    url: "/services?populate[serviceDetails][fields][0]=name&sort=id:desc",
     options: { method: "GET" },
   });
   const services = (await res.json()) as StrapiResponse<Service>;

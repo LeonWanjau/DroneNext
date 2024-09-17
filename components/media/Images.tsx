@@ -30,13 +30,13 @@ export default function Images({ images }: { images: Image[] }) {
         <Title>Images</Title>
       </div>
 
-      <div className="flex flex-wrap gap-6 mt-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mt-4">
         {selectedImages.map((image, index) => {
           return (
             <Card
               key={index}
               className={`rounded overflow-hidden relative transition-transform hover:scale-[1.03] cursor-pointer
-                grow shrink-0 basis-[100%] md:basis-[40%] min-h-[216px]`}
+                col-span-1 aspect-[2/1]`}
               onClick={() => {
                 setCurrentImage(image);
                 setDialogOpen(true);
@@ -54,7 +54,7 @@ export default function Images({ images }: { images: Image[] }) {
         })}
       </div>
 
-      <div className="md:mt-4">
+      <div className="mt-8 md:mt-4">
         <Pagination
           numberOfItems={images.length}
           currentPage={currentPage}

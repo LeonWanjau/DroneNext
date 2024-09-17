@@ -5,6 +5,7 @@ import Appbar from "@/components/Appbar";
 import ShowFooter from "@/components/footer/ShowFooter";
 import Logo from "@/components/Logo";
 import FooterServerComponent from "@/components/footer/FooterServerComponent";
+import { ThemeProvider } from "@/components/ThemeProvider";
 // import BgImg from "@/assets/images/wallpaper.webp";
 // import Image from "next/image";
 
@@ -25,18 +26,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} relative`}>
-        {/* <Image
-          src={BgImg}
-          alt="background image"
-          className="fixed w-screen h-screen z-0"
-        /> */}
-        <div className="relative min-h-[100vh] flex flex-col">
-          <Appbar logo={<Logo size="small" />} />
-          {/* Flex grow to take up extra height remove empty space under footer, when content height is small */}
-          <div className="grow">{children}</div>
-          <FooterServerComponent />
-          {/* {modal} */}
-        </div>
+        <ThemeProvider attribute="class" enableSystem defaultTheme="dark" disableTransitionOnChange>
+          <div className="relative min-h-[100vh] flex flex-col">
+            <Appbar logo={<Logo size="small" />} />
+            {/* Flex grow to take up extra height remove empty space under footer, when content height is small */}
+            <div className="grow">{children}</div>
+            <FooterServerComponent />
+            {/* {modal} */}
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

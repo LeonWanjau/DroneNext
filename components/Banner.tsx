@@ -74,8 +74,8 @@ export default async function Banner() {
         })}
       </CarouselContent>
       <div className="container absolute top-1/2 left-1/2 -translate-x-1/2">
-        <CarouselPrevious className="left-4 lg:left-4" />
-        <CarouselNext className="right-4 lg:right-4" />
+        <CarouselPrevious className="left-4 lg:left-4 ring ring-current" />
+        <CarouselNext className="right-4 lg:right-4 ring ring-current" />
       </div>
       <div
         className="bg-primary/80 backdrop-blur-sm text-primary-foreground py-4 lg:py-8 px-4 absolute left-1/2 -translate-x-1/2 bottom-0 translate-y-1/2 

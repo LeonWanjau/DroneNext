@@ -62,7 +62,7 @@ export default function PortfolioClientComponent({
         })}
       </div>
 
-      <div className="md:mt-8">
+      <div className="mt-8">
         <Pagination
           numberOfItems={projects.length}
           currentPage={currentPage}

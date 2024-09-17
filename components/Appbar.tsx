@@ -2,6 +2,7 @@
 
 import NavLinks from "./NavLinks";
 import Logo from "./Logo";
+import { ModeToggle } from "./ToggleTheme";
 
 const links = {
   Home: "/",
@@ -15,7 +16,12 @@ export default function Appbar({ logo }: { logo: React.ReactNode }) {
       <div className="flex flex-col items-center gap-1 md:gap-0 md:flex-row justify-between px-4 container">
         {/* <Logo size="small" /> */}
         {logo}
-        <NavLinks />
+        <div className="flex">
+          <NavLinks />
+          <div className="ml-2">
+            <ModeToggle />
+          </div>
+        </div>
       </div>
     </div>
   );
