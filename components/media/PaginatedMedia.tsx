@@ -9,15 +9,13 @@ export default function PaginatedMedia({
   MediaComponent: React.FunctionComponent<{ pageNumber: number }>;
   numberOfItems: number;
 }) {
-  return () => {
-    const searchParams = useSearchParams();
-    const pageParam = searchParams.get("page");
-    const pageNumber = pageParam ? parseInt(pageParam) : 1;
-    return (
-      <div className="flex flex-col">
-        <MediaComponent pageNumber={pageNumber} />
-        {/* <Pagination numberOfItems={numberOfItems} currentPage={pageNumber} /> */}
-      </div>
-    );
-  };
+  const searchParams = useSearchParams();
+  const pageParam = searchParams.get("page");
+  const pageNumber = pageParam ? parseInt(pageParam) : 1;
+  return (
+    <div className="flex flex-col">
+      <MediaComponent pageNumber={pageNumber} />
+      {/* <Pagination numberOfItems={numberOfItems} currentPage={pageNumber} /> */}
+    </div>
+  );
 }

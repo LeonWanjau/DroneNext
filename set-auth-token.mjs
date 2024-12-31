@@ -1,9 +1,12 @@
-"use server";
+import dotenv from "dotenv";
+import dotenvExpand from "dotenv-expand";
+import util from 'util'
+import {exec} from "node:child_process"
+import fs from "node:fs/promises";
+
+const promisifiedExec = util.promisify(exec)
 
 async function getAdminAuthToken() {
-  if (process.env.AUTH_TOKEN !== undefined) {
-    return process.env.AUTH_TOKEN;
-  }
   const url = `${process.env.NEXT_PUBLIC_AUTH_URL}/admin/login`;
   const body = {
     email: process.env.STRAPI_EMAIL,
@@ -25,11 +28,10 @@ async function getAdminAuthToken() {
   if (authTokenNotDefined) {
     throw new Error("Unable to get auth token");
   }
-  process.env.AUTH_TOKEN = authToken;
-  return authToken as string;
+  return authToken;
 }
 
-async function createApiToken(adminToken: string) {
+async function createApiToken(adminToken) {
   const createTokenUrl = `${process.env.NEXT_PUBLIC_AUTH_URL}/admin/api-tokens`;
   const res = await fetch(createTokenUrl, {
     method: "POST",
@@ -51,7 +53,7 @@ async function createApiToken(adminToken: string) {
   return (await res.json()).data.accessKey;
 }
 
-async function getApiTokenId(adminToken: string) {
+async function getApiTokenId(adminToken) {
   const apiTokensUrl = `${process.env.NEXT_PUBLIC_AUTH_URL}/admin/api-tokens`;
   const res = await fetch(apiTokensUrl, {
     method: "GET",
@@ -87,49 +89,29 @@ async function fetchApiToken() {
   return await createApiToken(adminToken);
 }
 
-async function getAuthToken() {
-  let authToken = process.env.AUTH_TOKEN;
-  const authTokenNotDefined = !!!authToken;
-  if (authTokenNotDefined) {
-    throw new Error("Auth token not set");
+const authTokenFileName = "auth-token";
+
+async function setApiToken() {
+  try {
+    fs.writeFile("./" + authTokenFileName, "", { flag: "w+" });
+    const token = await fetchApiToken();
+    fs.writeFile("./" + authTokenFileName, token, { flag: "w+" });
+
+    // const token = await fetchApiToken();
+    // console.log(token)
+
+    // await promisifiedExec(`export AUTH_TOKEN=${token}`)
+    // Run the script as eval $(node scriptName)
+    // console.log(`export AUTH_TOKEN=${token}`)
+
+  } catch (e) {
+    console.log(e);
   }
-  return authToken;
 }
 
-export async function setAuthToken() {
-  if (process.env.AUTH_TOKEN !== undefined) {
-    return;
-  }
-  const authToken = await fetchApiToken();
-  process.env.AUTH_TOKEN = authToken;
-}
-
-export async function doFetch({
-  url,
-  options = {
-    method: "GET",
-    headers: undefined,
-  },
-}: {
-  url: string;
-  options?: RequestInit;
-}) {
-  const authToken = await getAuthToken();
-
-  url = process.env.NEXT_PUBLIC_BASE_URL + url;
-
-  if (options.headers instanceof Headers) {
-    options.headers.append("Authorization", `Bearer ${authToken ?? ""}`);
-  } else {
-    options.headers = new Headers({
-      Authorization: `Bearer ${authToken ?? ""}`,
-    });
-  }
-  const hasContentTypeHeader = options.headers.has("Content-Type");
-  if (!hasContentTypeHeader) {
-    options.headers.append("Content-Type", "application/json");
-  }
-  options.credentials = "include";
-  const res = await fetch(url, options);
-  return res;
-}
+dotenvExpand.expand(
+  dotenv.config({
+    path: ".env.local",
+  })
+);
+await setApiToken();

@@ -1,0 +1,3 @@
+[submodule "Drone-Strapi"]
+	path = Drone-Strapi
+	url = https://github.com/LeonWanjau/Drone-Strapi.git

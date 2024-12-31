@@ -23,13 +23,13 @@ import {
 import Pagination from "../Pagination";
 
 export default function Videos({
-  title,
+  title = "Videos",
   videos = [],
-  mediaType,
+  mediaType = MediaTypes.VIDEO,
 }: {
-  title: string;
+  title?: string;
   videos?: Video[] | YoutubeVideo[];
-  mediaType: MediaTypes;
+  mediaType?: MediaTypes;
 }) {
   const [currentVideo, setCurrentVideo] = useState<Video | YoutubeVideo | null>(
     null

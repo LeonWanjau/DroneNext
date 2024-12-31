@@ -1,0 +1,43 @@
+services:
+  drone-next:
+    container_name: drone-next
+    build:
+      context: .
+      network: host
+    depends_on:
+      drone-strapi:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  drone-strapi:
+    container_name: drone-strapi
+    build:
+      context: ./Drone-Strapi
+      network: host
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:1337"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+      start_interval: 10s
+    env_file:
+      - ./.env.local
+    ports:
+      - "1337:1337"
+    volumes:
+      - type: bind
+        source: ./Drone-Strapi/src
+        target: /app/src
+      - type: bind
+        source: ./Drone-Strapi/public
+        target: /app/public
+      - type: volume
+        source: strapi-db
+        target: /app/.tmp
+      # - type: bind
+      #   source: ./Drone-Strapi/.tmp
+      #   target: /app/.tmp
+volumes:
+  strapi-db:

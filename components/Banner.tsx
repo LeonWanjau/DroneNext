@@ -12,10 +12,9 @@ import { doFetch } from "@/app/api";
 import { BannerItem, StrapiResponse } from "@/types";
 import {
   defaultBlurredImageBase64,
-  getCompanyInfo,
   getImageSrc,
 } from "@/app/functions";
-import ImageIframe from "./ImageIframe";
+import { getCompanyInfo } from "@/app/server-functions";
 
 const carouselItems = [
   {

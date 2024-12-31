@@ -1,5 +1,5 @@
-import { defaultBlurredImageBase64, getCompanyInfo, getImageSrc } from "@/app/functions";
-import { Lightbulb } from "lucide-react";
+import { defaultBlurredImageBase64, getImageSrc } from "@/app/functions";
+import { getCompanyInfo } from "@/app/server-functions";
 import Image from "next/image";
 import Link from "next/link";
 

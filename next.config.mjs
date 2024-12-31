@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  // output: "export",
+  output: "standalone",
+  experimental:{
+    instrumentationHook: true
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

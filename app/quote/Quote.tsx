@@ -137,7 +137,7 @@ Primary Drone Use: ${data.primaryDroneUse ? data.primaryDroneUse : ""}`;
               </SelectTrigger>
               <SelectContent>
                 {droneUses.map((droneUse) => (
-                  <SelectItem value={droneUse}>{droneUse}</SelectItem>
+                  <SelectItem key={droneUse} value={droneUse}>{droneUse}</SelectItem>
                 ))}
                 <SelectSeparator />
                 {field.value && (

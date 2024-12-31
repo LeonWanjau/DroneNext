@@ -1,6 +1,7 @@
 import AppBarSpacer from "@/components/AppbarSpacer";
 import Media from "@/components/media/Media";
 import { Image, Video } from "@/types";
+import { Suspense } from "react";
 
 export default function Page() {
   const videos: Video[] = [
@@ -56,11 +57,13 @@ export default function Page() {
   ];
 
   return (
-    <div>
-      <AppBarSpacer />
-      <div className="container px-4 mt-8 md:mt-8">
-        <Media videos={videos} images={images} />
+    <Suspense>
+      <div>
+        <AppBarSpacer />
+        <div className="container px-4 mt-8 md:mt-8">
+          <Media videos={videos} images={images} />
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

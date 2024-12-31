@@ -51,7 +51,7 @@ export default function Pagination({
       // router.push(url.href,{});
       // window.history.replaceState({}, "", url.href);
     },
-    [mediaType, urlHash]
+    [mediaType, urlHash, router]
   );
 
   return (

@@ -1,4 +1,4 @@
-import { getContactItems } from "@/app/functions";
+import { getContactItems } from "@/app/server-functions";
 import { LucideIcon, Mail, Phone } from "lucide-react";
 
 export const contactItems: {

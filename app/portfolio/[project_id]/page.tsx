@@ -13,14 +13,14 @@ import {
 } from "@/types";
 import NextImage from "next/image";
 
-export async function generateStaticParams() {
-  const projectsRes = await doFetch({
-    url: "/projects",
-    options: { method: "GET" },
-  });
-  const projects = ((await projectsRes.json()) as StrapiResponse<Project>).data;
-  return projects.map((project) => ({ project_id: project.id.toString() }));
-}
+// export async function generateStaticParams() {
+//   const projectsRes = await doFetch({
+//     url: "/projects",
+//     options: { method: "GET" },
+//   });
+//   const projects = ((await projectsRes.json()) as StrapiResponse<Project>).data;
+//   return projects.map((project) => ({ project_id: project.id.toString() }));
+// }
 
 export default async function Page({
   params,
