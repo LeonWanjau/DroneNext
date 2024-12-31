@@ -2,7 +2,9 @@ pipeline {
     agent any
     stages {
         stage('deploy') {
-            sh './startup.sh'
+            steps {
+                sh './startup.sh'
+            }
         }
     }
 }
